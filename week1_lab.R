@@ -7,6 +7,81 @@ library(tidyverse)
 
 
 
+###problem 1
+#1-1
+p_pos_truth <- 0.01
+p_pos_lie <- 0.99
+p_neg_truth <- 1 - p_pos_truth
+p_neg_lie <- 1 - p_pos_lie
+
+p_both_positive <- p_pos_truth * p_pos_lie
+p_both_positive
+
+#1-2
+p_guilty_pos_innocent_neg <- p_pos_lie * p_neg_truth
+p_guilty_pos_innocent_neg
+
+#1-3
+p_completely_wrong <- p_pos_truth * p_neg_lie
+p_completely_wrong
+
+#1-4
+p_either_or_both_positive <- 1 - (p_neg_truth * p_neg_lie)
+p_either_or_both_positive
+
+###problem 2
+#2-1
+p_hh <- 1 / 3
+p_tt <- 1 / 3
+p_ht <- 1 / 3
+
+p_head <- p_hh * 1 + p_ht * 0.5 + p_tt * 0
+p_other_side_head_given_head <- (p_hh * 1) / p_head
+p_other_side_head_given_head
+
+###problem 3
+#3-1
+p_mother_disease <- 1 / 3
+p_mother_no_disease <- 2 / 3
+
+p_neither_child_disease <- p_mother_disease * (0.5 * 0.5) + p_mother_no_disease * 1
+p_neither_child_disease
+
+#3-2
+p_elder_disease <- p_mother_disease * 0.5
+p_younger_disease <- p_mother_disease * 0.5
+p_both_disease <- p_mother_disease * (0.5 * 0.5)
+p_independent_check <- p_elder_disease * p_younger_disease
+
+independence_result <- data.frame(
+  P_both = p_both_disease,
+  P_elder_times_P_younger = p_independent_check,
+  independent = p_both_disease == p_independent_check
+)
+independence_result
+
+#3-3
+p_elder_no_disease <- p_mother_disease * 0.5 + p_mother_no_disease * 1
+p_mother_disease_given_elder_no <- (0.5 * p_mother_disease) / p_elder_no_disease
+p_mother_disease_given_elder_no
+
+#3-4
+p_both_no_disease <- p_mother_disease * (0.5 * 0.5) + p_mother_no_disease * 1
+p_mother_disease_given_both_no <- ((0.5 * 0.5) * p_mother_disease) / p_both_no_disease
+p_mother_disease_given_both_no
+
+#3-5
+p_mother_no_disease_given_elder_no <- 1 - p_mother_disease_given_elder_no
+p_younger_no_given_elder_no <- p_mother_disease_given_elder_no * 0.5 + p_mother_no_disease_given_elder_no * 1
+p_mother_disease_sequential <- (0.5 * p_mother_disease_given_elder_no) / p_younger_no_given_elder_no
+
+sequential_vs_onestep <- data.frame(
+  one_step = p_mother_disease_given_both_no,
+  sequential = p_mother_disease_sequential,
+  same_result = all.equal(p_mother_disease_given_both_no, p_mother_disease_sequential)
+)
+sequential_vs_onestep
+
 ###problem 4
 df <- read.csv("C:/Users/ylc75/OneDrive/Desktop/waseda/QPA1/vote.csv")
 #View(df)
